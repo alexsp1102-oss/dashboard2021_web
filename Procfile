@@ -1,0 +1,1 @@
+web: gunicorn dashboard2021_web.wsgi
