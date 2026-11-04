@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Recordatorios CRM{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <h3 class="text-white mb-4">Recordatorios CRM</h3>
+  <p class="text-muted">Listado de documentos y clientes ordenados por fecha.</p>
+
+  <table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Cliente</th>
+        <th>Vendedor</th>
+        <th>Producto</th>
+        <th>Ventas</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in recordatorios %}
+      <tr>
+        <td>{{ r.Fecha|date:"d/m/Y" }}</td>
+        <td>{{ r.Cliente }}</td>
+        <td>{{ r.Vendedor }}</td>
+        <td>{{ r.Producto }}</td>
+        <td>{{ r.Ventas|floatformat:2 }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

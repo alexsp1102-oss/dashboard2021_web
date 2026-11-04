@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}SI Ejecutivo{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+  <header class="dashboard-header">
+   
+    <p>Dashboard, reportes, comparativos y analítica avanzada</p>
+    <nav class="nav-buttons">
+      <a href="{% url 'dashboard_home' %}">Inicio</a>
+      <a href="{% url 'inicio' %}">Ventas</a>
+      <a href="{% url 'reporte_mensual' %}">Reporte mensual</a>
+      <a href="{% url 'dashboard_comparativo' %}">Comparativo</a>
+      <a href="{% url 'exportar_ventas_excel' %}">Exportar Excel</a>
+      <a href="{% url 'sucursales' %}">Sucursales</a>
+      <!-- Nuevos accesos CRM -->
+      <a href="{% url 'crm_modulo' %}">Módulo CRM</a>
+      <a href="{% url 'crm_avanzado' %}">CRM Avanzado</a>
+      <a href="{% url 'crm_ejecutivo' %}">CRM Ejecutivo</a>
+    </nav>
+  </header>
+
+  <section class="panel-principal">
+    <div class="bienvenida card">
+      <h2>Bienvenido al SI Ejecutivo</h2>
+      <p>Desde aquí puedes consultar ventas, comparar resultados y activar la capa de analítica avanzada.</p>
+      <!-- 🔹 Corrección: ahora apunta a la vista analítica avanzada -->
+      <button onclick="window.location.href='{% url 'crm_analitica_avanzada' %}'" class="btn btn-primary">
+        Ir a analítica avanzada
+      </button>
+    </div>
+
+    <div class="accesos-rapidos card">
+      <h3>Accesos rápidos</h3>
+      <button onclick="window.location.href='{% url 'inicio' %}'" class="btn btn-secondary">Ver ventas</button>
+      <button onclick="window.location.href='{% url 'reporte_mensual' %}'" class="btn btn-secondary">Reporte mensual</button>
+      <button onclick="window.location.href='{% url 'dashboard_comparativo' %}'" class="btn btn-secondary">Comparativo</button>
+      <button onclick="window.location.href='{% url 'exportar_ventas_excel' %}'" class="btn btn-secondary">Exportar Excel</button>
+      <!-- 🔹 Si quieres acceso directo a analítica avanzada -->
+      <button onclick="window.location.href='{% url 'crm_analitica_avanzada' %}'" class="btn btn-secondary">Analítica avanzada</button>
+      <button onclick="window.location.href='{% url 'sucursales' %}'" class="btn btn-secondary">Sucursales</button>
+      <!-- Accesos rápidos CRM -->
+      <button onclick="window.location.href='{% url 'crm_modulo' %}'" class="btn btn-secondary">Módulo CRM</button>
+      <button onclick="window.location.href='{% url 'crm_avanzado' %}'" class="btn btn-secondary">CRM Avanzado</button>
+      <button onclick="window.location.href='{% url 'crm_ejecutivo' %}'" class="btn btn-secondary">CRM Ejecutivo</button>
+    </div>
+  </section>
+
+  <section class="modulos">
+    <div class="modulo">Ventas<br><small>Consulta registros y comportamiento comercial</small></div>
+    <div class="modulo">Comparativo<br><small>Cruza categoría, ciudad y método de pago</small></div>
+    <div class="modulo">Analítica<br><small>ANOVA, regresión, predicción y recomendaciones</small></div>
+    <div class="modulo">Catálogos<br><small>Clientes, productos, vendedores y sucursales</small></div>
+    <!-- Nuevos módulos CRM -->
+    <div class="modulo">Módulo CRM<br><small>Seguimiento comercial y segmentación</small></div>
+    <div class="modulo">CRM Avanzado<br><small>Prospectos, notas y recordatorios</small></div>
+    <div class="modulo">CRM Ejecutivo<br><small>Score, alertas y predicción</small></div>
+  </section>
+</div>
+{% endblock %}

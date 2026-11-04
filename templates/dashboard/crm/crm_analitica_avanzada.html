@@ -1,0 +1,598 @@
+{% extends 'base.html' %}
+{% block title %}Analítica avanzada{% endblock %}
+
+{% block content %}
+<div class="container mt-5 text-light">
+
+  <h3 class="mb-4">Analítica avanzada</h3>
+
+  <!-- ========================= -->
+  <!-- ESTILOS -->
+  <!-- ========================= -->
+  <style>
+
+    body{
+      background-color:#111;
+    }
+
+    .filtros-analitica{
+      display:flex;
+      flex-wrap:wrap;
+      gap:15px;
+      align-items:flex-end;
+      background:#1a1a1a;
+      padding:20px;
+      border-radius:10px;
+      margin-bottom:25px;
+      border:1px solid #333;
+    }
+
+    .filtros-analitica .form-group{
+      flex:1 1 180px;
+      min-width:160px;
+    }
+
+    .filtros-analitica label{
+      font-weight:600;
+      color:#ccc;
+      margin-bottom:6px;
+    }
+
+    .filtros-analitica input,
+    .filtros-analitica select{
+      background:#222;
+      color:#fff;
+      border:1px solid #444;
+    }
+
+    .card{
+      border:none;
+      border-radius:12px;
+      box-shadow:0 0 10px rgba(0,0,0,0.4);
+    }
+
+    .card h5{
+      color:#00bfff;
+      margin-bottom:15px;
+    }
+
+    .table-dark{
+      border-radius:8px;
+      overflow:hidden;
+    }
+
+    .metric-card{
+      text-align:center;
+      transition:0.3s;
+    }
+
+    .metric-card:hover{
+      transform:translateY(-4px);
+    }
+
+    ul{
+      padding-left:20px;
+    }
+
+    li{
+      margin-bottom:6px;
+    }
+
+    .alert-box{
+      background:#161616;
+      padding:15px;
+      border-radius:8px;
+      border-left:4px solid #00bfff;
+    }
+
+    canvas{
+      max-height:350px;
+    }
+
+  </style>
+
+  <!-- ========================= -->
+  <!-- FILTROS -->
+  <!-- ========================= -->
+  <form method="get" class="filtros-analitica">
+
+    <div class="form-group">
+      <label>Fecha inicio</label>
+      <input 
+        type="text" 
+        name="fecha_inicio" 
+        class="form-control"
+        placeholder="dd/mm/aaaa"
+      >
+    </div>
+
+    <div class="form-group">
+      <label>Fecha fin</label>
+      <input 
+        type="text" 
+        name="fecha_fin" 
+        class="form-control"
+        placeholder="dd/mm/aaaa"
+      >
+    </div>
+
+    <div class="form-group">
+      <label>Moneda</label>
+      <select name="moneda" class="form-control">
+        <option value="MXN">MXN (Peso Mexicano)</option>
+        <option value="USD">USD (Dólar Estadounidense)</option>
+        <option value="EUR">EUR (Euro)</option>
+        <option value="ARS">ARS (Peso Argentino)</option>
+        <option value="CAD">CAD (Dólar Canadiense)</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Cliente</label>
+      <select multiple name="cliente" class="form-control">
+        {% for c in clientes %}
+          <option value="{{ c }}">{{ c }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Vendedor</label>
+      <select multiple name="vendedor" class="form-control">
+        {% for v in vendedores %}
+          <option value="{{ v }}">{{ v }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Categoría</label>
+      <select multiple name="categoria" class="form-control">
+        {% for cat in categorias %}
+          <option value="{{ cat }}">{{ cat }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Método de pago</label>
+      <select multiple name="metodo" class="form-control">
+        {% for m in metodos %}
+          <option value="{{ m }}">{{ m }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">
+        Aplicar filtros
+      </button>
+
+      <a href="{% url 'crm_analitica_avanzada' %}" class="btn btn-secondary">
+        Limpiar
+      </a>
+    </div>
+
+  </form>
+
+  <!-- ========================= -->
+  <!-- MÉTRICAS -->
+  <!-- ========================= -->
+  <div class="row mb-4">
+
+    <div class="col-md-3 mb-3">
+      <div class="card bg-dark p-3 metric-card">
+        <h5>Ventas analizadas</h5>
+        <p class="h4">{{ total_registros }}</p>
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+      <div class="card bg-dark p-3 metric-card">
+        <h5>Monto total ({{ moneda }})</h5>
+        <p class="h4">
+          {{ monto_total|floatformat:2 }}
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+      <div class="card bg-dark p-3 metric-card">
+        <h5>Promedio ({{ moneda }})</h5>
+        <p class="h4">
+          {{ promedio|floatformat:2 }}
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+      <div class="card bg-dark p-3 metric-card">
+        <h5>Máximo ({{ moneda }})</h5>
+        <p class="h4">
+          {{ maximo|floatformat:2 }}
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ========================= -->
+  <!-- GRÁFICOS -->
+  <!-- ========================= -->
+  <div class="row">
+
+    <div class="col-md-6">
+      <div class="card bg-dark p-3 mb-4">
+        <h5>Tendencia mensual</h5>
+        <canvas id="chartTendencia"></canvas>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card bg-dark p-3 mb-4">
+        <h5>Estacionalidad promedio</h5>
+        <canvas id="chartEstacionalidad"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ========================= -->
+  <!-- TOP VENDEDORES -->
+  <!-- ========================= -->
+  <div class="card bg-dark p-3 mb-4">
+
+    <h5>Top vendedores</h5>
+
+    <table class="table table-dark table-striped">
+
+      <thead>
+        <tr>
+          <th>Vendedor</th>
+          <th>Total (MXN)</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        {% for v in top_vendedores %}
+        <tr>
+          <td>{{ v.Vendedor }}</td>
+          <td>{{ v.Ventas|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <!-- ========================= -->
+  <!-- TOP SUCURSALES -->
+  <!-- ========================= -->
+  <div class="card bg-dark p-3 mb-4">
+
+    <h5>Top sucursales</h5>
+
+    <table class="table table-dark table-striped">
+
+      <thead>
+        <tr>
+          <th>Sucursal</th>
+          <th>Total (MXN)</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        {% for s in top_sucursales %}
+        <tr>
+          <td>{{ s.Ciudad }}</td>
+          <td>{{ s.Ventas|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <!-- ========================= -->
+  <!-- PROYECCIÓN CATEGORÍAS -->
+  <!-- ========================= -->
+  <div class="card bg-dark p-3 mb-4">
+
+    <h5>Proyección por categoría</h5>
+
+    <ul>
+
+      {% for c in proyeccion_categoria %}
+      <li>
+        {{ c.Categoría }} :
+        ${{ c.Ventas|floatformat:2 }}
+      </li>
+      {% endfor %}
+
+    </ul>
+
+  </div>
+
+  <!-- ========================= -->
+  <!-- ALERTAS -->
+  <!-- ========================= -->
+  <div class="card bg-dark p-3 mb-4">
+
+    <h5>Alertas inteligentes</h5>
+
+    <div class="alert-box">
+      <p>
+        Liderazgo actual:
+        {{ cliente_top }}
+        encabeza con
+        ${{ cliente_top_valor|floatformat:2 }}
+      </p>
+
+      <p>
+        Vendedor con menor desempeño:
+        {{ vendedor_min }}
+        con
+        ${{ vendedor_min_valor|floatformat:2 }}
+      </p>
+
+      <p>
+        Método de pago dominante:
+        {{ metodo_top }}
+        con
+        ${{ metodo_top_valor|floatformat:2 }}
+      </p>
+
+      <p>
+        Categoría con mayor peso:
+        {{ categoria_top }}
+        con
+        ${{ categoria_top_valor|floatformat:2 }}
+      </p>
+
+      <p>
+        Mes con menor promedio:
+        {{ mes_min }}
+        con
+        ${{ mes_min_valor|floatformat:2 }}
+      </p>
+    </div>
+
+  </div>
+
+  <!-- ========================= -->
+  <!-- MÉTODOS DE PAGO -->
+  <!-- ========================= -->
+  <div class="card bg-dark p-3 mb-4">
+
+    <h5>Proyección en métodos de pago</h5>
+
+    <ul>
+
+      {% for m in proyeccion_metodos %}
+      <li>
+        {{ m.Forma_de_pago }} :
+        ${{ m.Ventas|floatformat:2 }}
+      </li>
+      {% endfor %}
+
+    </ul>
+
+  </div>
+
+  <!-- ========================= -->
+  <!-- HALLAZGOS -->
+  <!-- ========================= -->
+  <div class="card bg-dark p-3 mb-4">
+
+    <h5>Hallazgos automáticos</h5>
+
+    <p>
+      Cliente con mayor aportación:
+      {{ cliente_top }}
+      ${{ cliente_top_valor|floatformat:2 }}
+    </p>
+
+    <p>
+      Vendedor con menor desempeño:
+      {{ vendedor_min }}
+      ${{ vendedor_min_valor|floatformat:2 }}
+    </p>
+
+    <p>
+      Método de pago líder:
+      {{ metodo_top }}
+      ${{ metodo_top_valor|floatformat:2 }}
+    </p>
+
+    <p>
+      Categoría líder:
+      {{ categoria_top }}
+      ${{ categoria_top_valor|floatformat:2 }}
+    </p>
+
+    <p>
+      Mes con menor promedio:
+      {{ mes_min }}
+      ${{ mes_min_valor|floatformat:2 }}
+    </p>
+
+  </div>
+
+  <!-- ========================= -->
+  <!-- RECOMENDACIONES -->
+  <!-- ========================= -->
+  <div class="card bg-dark p-3 mb-5">
+
+    <h5>Recomendaciones</h5>
+
+    <p>
+      Optimizar campañas en la categoría
+      {{ categoria_top }}.
+    </p>
+
+    <p>
+      Revisar desempeño de
+      {{ vendedor_min }}.
+    </p>
+
+    <p>
+      Potenciar el método de pago
+      {{ metodo_top }}.
+    </p>
+
+  </div>
+
+</div>
+
+<!-- ========================= -->
+<!-- CHART JS -->
+<!-- ========================= -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+  const tendenciaData = {{ tendencia|safe }};
+  const estacionalidadData = {{ estacionalidad|safe }};
+
+  // =========================
+  // TENDENCIA MENSUAL
+  // =========================
+  new Chart(
+    document.getElementById('chartTendencia'),
+    {
+      type:'line',
+
+      data:{
+        labels:tendenciaData.map(t => t.Fecha),
+
+        datasets:[
+          {
+            label:'Ventas mensuales',
+
+            data:tendenciaData.map(t => t.Ventas),
+
+            borderColor:'#00bfff',
+
+            backgroundColor:'rgba(0,191,255,0.2)',
+
+            fill:true,
+
+            tension:0.3,
+
+            borderWidth:3,
+
+            pointRadius:4
+          }
+        ]
+      },
+
+      options:{
+
+        responsive:true,
+
+        plugins:{
+          legend:{
+            labels:{
+              color:'#fff'
+            }
+          }
+        },
+
+        scales:{
+          x:{
+            ticks:{
+              color:'#ccc'
+            }
+          },
+
+          y:{
+            ticks:{
+              color:'#ccc'
+            }
+          }
+        }
+      }
+    }
+  );
+
+  // =========================
+  // ESTACIONALIDAD
+  // =========================
+  new Chart(
+    document.getElementById('chartEstacionalidad'),
+    {
+      type:'bar',
+
+      data:{
+        labels:[
+          'Enero',
+          'Febrero',
+          'Marzo',
+          'Abril',
+          'Mayo',
+          'Junio',
+          'Julio',
+          'Agosto',
+          'Septiembre',
+          'Octubre',
+          'Noviembre',
+          'Diciembre'
+        ],
+
+        datasets:[
+          {
+            label:'Promedio por mes',
+
+            data:estacionalidadData.map(
+              e => e.Ventas
+            ),
+
+            backgroundColor:'#00ff88',
+
+            borderRadius:6
+          }
+        ]
+      },
+
+      options:{
+
+        responsive:true,
+
+        plugins:{
+          legend:{
+            labels:{
+              color:'#fff'
+            }
+          }
+        },
+
+        scales:{
+
+          x:{
+            ticks:{
+              color:'#ccc'
+            }
+          },
+
+          y:{
+            ticks:{
+              color:'#ccc'
+            }
+          }
+
+        }
+
+      }
+
+    }
+  );
+
+</script>
+
+{% endblock %}

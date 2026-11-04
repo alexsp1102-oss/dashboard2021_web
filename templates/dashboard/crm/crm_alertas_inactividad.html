@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Alertas por Inactividad{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <h3 class="text-white mb-4">Alertas por Inactividad</h3>
+  <p class="text-muted">Clientes sin actividad en los últimos 90 días (antes de {{ limite|date:"d/m/Y" }}).</p>
+
+  <table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th>Cliente</th>
+        <th>Vendedor</th>
+        <th>Última Fecha de Actividad</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in inactivos %}
+      <tr>
+        <td>{{ c.Cliente }}</td>
+        <td>{{ c.Vendedor }}</td>
+        <td>{{ c.Fecha|date:"d/m/Y" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}SI Ejecutivo{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  <style>
+    body {
+      background-color: #0b1622;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    header.dashboard-header {
+      background-color: #0d1b2a;
+      color: #fff;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #1f2a38;
+    }
+    .container {
+      margin-top: 2rem;
+    }
+    a, button {
+      color: #fff;
+      background-color: #1f2a38;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 12px;
+      transition: 0.3s;
+    }
+    a:hover, button:hover {
+      background-color: #007bff;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <header class="dashboard-header">
+    <h1>SI Ejecutivo</h1>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

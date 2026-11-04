@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Segmentación de Clientes{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <h3 class="text-white mb-4">Segmentación de clientes</h3>
+
+  <!-- Top 10 clientes -->
+  <h5 class="text-info">Top 10 clientes por volumen de ventas</h5>
+  <table class="table table-dark table-striped mb-5">
+    <thead>
+      <tr>
+        <th>Cliente</th>
+        <th>Ventas Totales</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in top_clientes %}
+      <tr>
+        <td>{{ c.Cliente }}</td>
+        <td>{{ c.Ventas|floatformat:2 }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Todos los clientes -->
+  <h5 class="text-info">Ventas por cliente (completo)</h5>
+  <table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th>Cliente</th>
+        <th>Ventas Totales</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in clientes_segmentados %}
+      <tr>
+        <td>{{ c.Cliente }}</td>
+        <td>{{ c.Ventas|floatformat:2 }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

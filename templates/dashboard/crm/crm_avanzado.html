@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}CRM Avanzado{% endblock %}
+{% block content %}
+<section class="crm-section mt-5">
+  <div class="container">
+    <div class="card bg-dark text-light p-3 mb-4">
+      <h4 class="text-white">CRM Avanzado</h4>
+      <p class="text-muted">Prospectos, notas comerciales, recordatorios y tablero del área comercial.</p>
+      <ul class="list-unstyled crm-buttons">
+        <li><a href="{% url 'crm_pipeline' %}" class="btn btn-outline-light">Pipeline de prospectos</a></li>
+        <li><a href="{% url 'crm_notas' %}" class="btn btn-outline-light">Notas CRM</a></li>
+        <li><a href="{% url 'crm_recordatorios' %}" class="btn btn-outline-light">Recordatorios CRM</a></li>
+        <li><a href="{% url 'crm_dashboard_gerencial' %}" class="btn btn-outline-light">Dashboard gerencial</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Notas CRM{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <h3 class="text-white mb-4">Notas CRM</h3>
+  <p class="text-muted">Resumen de productos vendidos por cada vendedor.</p>
+
+  <table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th>Vendedor</th>
+        <th>Productos vendidos (Notas)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for n in notas %}
+      <tr>
+        <td>{{ n.Vendedor }}</td>
+        <td>{{ n.Producto }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

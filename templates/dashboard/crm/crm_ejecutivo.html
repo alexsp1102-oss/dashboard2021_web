@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}CRM Ejecutivo{% endblock %}
+{% block content %}
+<section class="crm-section mt-5">
+  <div class="container">
+    <div class="card bg-dark text-light p-3 mb-4">
+      <h4 class="text-white">CRM Ejecutivo</h4>
+      <p class="text-muted">Herramientas finales de seguimiento comercial, score, alertas, predicción y exportación ejecutiva.</p>
+      <ul class="list-unstyled crm-buttons">
+        <li><a href="{% url 'crm_nuevo_prospecto' %}" class="btn btn-outline-light">Nuevo prospecto</a></li>
+        <li><a href="{% url 'crm_ejecutivo_pipeline' %}" class="btn btn-outline-light">Pipeline</a></li>
+        <li><a href="{% url 'crm_ejecutivo_dashboard' %}" class="btn btn-outline-light">Dashboard gerencial CRM</a></li>
+        <li><a href="{% url 'crm_score_clientes' %}" class="btn btn-outline-light">Score de clientes</a></li>
+        <li><a href="{% url 'crm_alertas_inactividad' %}" class="btn btn-outline-light">Alertas por inactividad</a></li>
+        <li><a href="{% url 'crm_prediccion_ventas' %}" class="btn btn-outline-light">Predicción de ventas</a></li>
+        <li><a href="{% url 'crm_panel_por_rol' %}" class="btn btn-outline-light">Panel por rol</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+{% endblock %}

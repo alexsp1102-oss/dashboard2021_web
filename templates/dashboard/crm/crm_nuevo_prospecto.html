@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Nuevo Prospecto{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <h3 class="text-white mb-4">Nuevo Prospecto</h3>
+  <p class="text-muted">Últimos registros cargados desde el Excel.</p>
+
+  <table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th>Documento</th>
+        <th>Fecha</th>
+        <th>Cliente</th>
+        <th>Ciudad</th>
+        <th>Vendedor</th>
+        <th>Producto</th>
+        <th>Ventas</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in prospectos %}
+      <tr>
+        <td>{{ p.Documento }}</td>
+        <td>{{ p.Fecha }}</td>
+        <td>{{ p.Cliente }}</td>
+        <td>{{ p.Ciudad }}</td>
+        <td>{{ p.Vendedor }}</td>
+        <td>{{ p.Producto }}</td>
+        <td>{{ p.Ventas|floatformat:2 }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

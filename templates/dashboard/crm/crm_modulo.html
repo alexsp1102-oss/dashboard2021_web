@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Módulo CRM{% endblock %}
+{% block content %}
+<section class="crm-section mt-5">
+  <div class="container">
+    <div class="card bg-dark text-light p-3 mb-4">
+      <h4 class="text-white">Módulo CRM</h4>
+      <p class="text-muted">Herramientas de seguimiento comercial, segmentación y análisis de clientes.</p>
+      
+      <!-- Lista de botones con separación uniforme -->
+      <ul class="list-unstyled crm-buttons">
+        <li>
+          <a href="{% url 'crm_seguimiento_comercial' %}" class="btn btn-outline-light">Seguimiento comercial</a>
+        </li>
+        <li>
+          <a href="{% url 'crm_desempeno_vendedor' %}" class="btn btn-outline-light">Desempeño por vendedor</a>
+        </li>
+        <li>
+          <a href="{% url 'crm_segmentacion_clientes' %}" class="btn btn-outline-light">Segmentación de clientes</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+{% endblock %}

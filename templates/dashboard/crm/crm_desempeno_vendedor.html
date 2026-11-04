@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Desempeño por Vendedor{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <h3 class="text-white mb-4">Desempeño por vendedor</h3>
+
+  <!-- Tabla detallada por ciudad -->
+  <h5 class="text-info">Ventas por vendedor y ciudad</h5>
+  <table class="table table-dark table-striped mb-5">
+    <thead>
+      <tr>
+        <th>Vendedor</th>
+        <th>Ciudad</th>
+        <th>Ventas Totales</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for d in desempeno %}
+      <tr>
+        <td>{{ d.Vendedor }}</td>
+        <td>{{ d.Ciudad }}</td>
+        <td>{{ d.Ventas|floatformat:2 }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Resumen por vendedor -->
+  <h5 class="text-info">Resumen de ventas por vendedor</h5>
+  <table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th>Vendedor</th>
+        <th>Ventas Totales</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for v in totales_vendedor %}
+      <tr>
+        <td>{{ v.Vendedor }}</td>
+        <td>{{ v.Ventas|floatformat:2 }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

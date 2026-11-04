@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Seguimiento Comercial{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <h3 class="text-white mb-4">Seguimiento comercial</h3>
+  <table class="table table-dark table-striped">
+    <thead>
+      <tr><th>Vendedor</th><th>Ventas Totales</th></tr>
+    </thead>
+    <tbody>
+      {% for v in ventas_por_vendedor %}
+      <tr><td>{{ v.Vendedor }}</td><td>{{ v.Ventas|floatformat:2 }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

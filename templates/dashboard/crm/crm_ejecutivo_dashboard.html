@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard Ejecutivo{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <h3 class="text-white mb-4">Dashboard Ejecutivo</h3>
+  <p class="text-muted">Indicadores globales del área comercial.</p>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card bg-dark text-light p-3 mb-3">
+        <h5>Total Ventas</h5>
+        <p class="h4">{{ resumen.total_ventas|floatformat:2 }}</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-dark text-light p-3 mb-3">
+        <h5>Promedio Ventas</h5>
+        <p class="h4">{{ resumen.promedio_ventas|floatformat:2 }}</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-dark text-light p-3 mb-3">
+        <h5>Total Clientes</h5>
+        <p class="h4">{{ resumen.total_clientes }}</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-dark text-light p-3 mb-3">
+        <h5>Total Vendedores</h5>
+        <p class="h4">{{ resumen.total_vendedores }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-md-3">
+      <div class="card bg-dark text-light p-3 mb-3">
+        <h5>Total Documentos</h5>
+        <p class="h4">{{ resumen.total_documentos }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Acceso Ejecutivo</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: radial-gradient(circle at top left, #0b1a3a, #0e2a5f, #0b1a3a);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+    }
+    .login-card {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+      width: 320px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 10px;
+      font-size: 22px;
+    }
+    p {
+      font-size: 13px;
+      color: #cfcfcf;
+      margin-bottom: 20px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .btn {
+      width: 100%;
+      padding: 10px;
+      background: linear-gradient(90deg, #007bff, #00c6ff);
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background: linear-gradient(90deg, #00c6ff, #007bff);
+    }
+    .note {
+      font-size: 11px;
+      color: #aaa;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <h2>Acceso Ejecutivo</h2>
+    <p>Ingrese sus credenciales para acceder al Sistema de Inteligencia Comercial.</p>
+    <form method="POST">
+      {% csrf_token %}
+      <input type="text" name="username" placeholder="Usuario" required>
+      <input type="password" name="password" placeholder="Contraseña" required>
+      <button type="submit" class="btn">Entrar al panel</button>
+    </form>
+    <div class="note">Uso exclusivo para dirección y análisis ejecutivo.</div>
+  </div>
+</body>
+</html>
+

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Pipeline Ejecutivo{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <h3 class="text-white mb-4">Pipeline Ejecutivo</h3>
+
+  <!-- Resumen -->
+  <div class="card bg-secondary text-light p-3 mb-4">
+    <p><strong>Total de clientes:</strong> {{ resumen.total_clientes }}</p>
+    <p><strong>Total de vendedores:</strong> {{ resumen.total_vendedores }}</p>
+    <p><strong>Ventas totales:</strong> {{ resumen.ventas_totales|floatformat:2 }}</p>
+  </div>
+
+  <!-- Tabla pipeline -->
+  <table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th>Cliente</th>
+        <th>Vendedor</th>
+        <th>Ciudad</th>
+        <th>Ventas</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in pipeline %}
+      <tr>
+        <td>{{ p.Cliente }}</td>
+        <td>{{ p.Vendedor }}</td>
+        <td>{{ p.Ciudad }}</td>
+        <td>{{ p.Ventas|floatformat:2 }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

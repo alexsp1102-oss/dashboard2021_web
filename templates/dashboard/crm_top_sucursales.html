@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Top Sucursales</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#f5f7fa;
+            padding:20px;
+        }
+
+        .card{
+            background:#fff;
+            border-radius:12px;
+            padding:20px;
+            max-width:900px;
+            margin:auto;
+            box-shadow:0 4px 10px rgba(0,0,0,.1);
+        }
+
+        h1{
+            text-align:center;
+            color:#333;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            margin-top:20px;
+        }
+
+        th{
+            background:#2563eb;
+            color:white;
+            padding:12px;
+        }
+
+        td{
+            padding:10px;
+            border-bottom:1px solid #ddd;
+        }
+
+        tr:nth-child(even){
+            background:#f9fafb;
+        }
+
+        tr:hover{
+            background:#eef2ff;
+        }
+
+        .monto{
+            text-align:right;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>🏆 Top Sucursales</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Sucursal</th>
+                <th>Total Ventas (MXN)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fila in ranking %}
+            <tr>
+                <td>{{ fila.Sucursal }}</td>
+                <td class="monto">${{ fila.Ventas|floatformat:2 }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">No hay datos disponibles.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
